@@ -107,6 +107,7 @@ def create_covid_norm_all_adaptive(current_time, window_size=16, k=8, perf_F=6):
       meta_data (region ids)
     """
     x_scalers = dict(zip(all_hhs_regions, [StandardScaler() for _ in all_hhs_regions]))
+    xf_scalers = dict(zip(all_hhs_regions, [StandardScaler() for _ in all_hhs_regions]))
     y_scalers = dict(zip(all_hhs_regions, [StandardScaler() for _ in all_hhs_regions]))
 
     X_tr_list, Y_tr_list, XF_tr_list = [], [], []
@@ -147,9 +148,10 @@ def create_covid_norm_all_adaptive(current_time, window_size=16, k=8, perf_F=6):
         x_lag_tr_n = norm_lag(x_lag_tr)
         x_lag_te_n = norm_lag(x_lag_te)
 
-        # Also normalize future exogenous for the aux loss
-        xf_tr_n = x_scalers[region].transform(xf_tr.reshape(-1, xf_tr.shape[-1])).reshape(xf_tr.shape)
-        xf_te_n = x_scalers[region].transform(xf_te.reshape(-1, xf_te.shape[-1])).reshape(xf_te.shape)
+        # Fit and normalize future exogenous for the aux loss with separate scaler
+        xf_scalers[region].fit(xf_tr.reshape(-1, xf_tr.shape[-1]))
+        xf_tr_n = xf_scalers[region].transform(xf_tr.reshape(-1, xf_tr.shape[-1])).reshape(xf_tr.shape)
+        xf_te_n = xf_scalers[region].transform(xf_te.reshape(-1, xf_te.shape[-1])).reshape(xf_te.shape)
 
         X_tr_list.append(x_lag_tr_n)
         Y_tr_list.append(y_tr_n)
