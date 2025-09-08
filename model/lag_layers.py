@@ -22,6 +22,7 @@ class LagAttention(nn.Module):
             )
         else:
             self.W = nn.Parameter(torch.randn(feature_dim, lag_dim) * 0.01)
+        print("DEBUG self.W type:", type(self.W), self.W.shape if hasattr(self.W, "shape") else self.W)
 
     def forward(self, x):
         """
