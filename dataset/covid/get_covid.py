@@ -47,7 +47,7 @@ def get_delay(x, y, k):
 def get_data(path, region):
     raw_data = pd.read_csv(path)
     raw_data = raw_data.loc[raw_data['region'] == region][10:140]
-    raw_data = raw_data.fillna(method='ffill')
+    raw_data = raw_data.ffill()
 
     for i, key in enumerate(feature_key):
         if i <= 5:

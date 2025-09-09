@@ -28,7 +28,7 @@ path = './dataset/covid/covid-hospitalization-all-state-merged_vEW202239.csv'
 def _read_region_matrix(region):
     raw = pd.read_csv(path)
     raw = raw.loc[raw['region'] == region][10:140].copy()
-    raw = raw.fillna(method='ffill')
+    raw = raw.ffill()
 
     xs = []
     for i, key in enumerate(feature_key):
