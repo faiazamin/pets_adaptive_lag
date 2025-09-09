@@ -74,7 +74,7 @@ def main():
     parser.add_argument('--epoch_first', type=int, default=20000)
     parser.add_argument('--epoch_rolling', type=int, default=3000)
     parser.add_argument('--conditional_lag', action='store_true')
-    parser.add_argument('--aux',type=int, default=1)
+    parser.add_argument('--aux',type=float, default=1)
     args = parser.parse_args()
 
     device = args.dev
