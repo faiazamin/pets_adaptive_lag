@@ -74,6 +74,7 @@ def main():
     parser.add_argument('--epoch_first', type=int, default=20000)
     parser.add_argument('--epoch_rolling', type=int, default=3000)
     parser.add_argument('--conditional_lag', action='store_true')
+    parser.add_argument('--aux',type=int, default=1)
     args = parser.parse_args()
 
     device = args.dev
@@ -112,7 +113,7 @@ def main():
             x_tr, y_tr, xf_tr,
             x_te, y_te, xf_te,
             meta_oh, meta_test_oh,
-            masks['future_mask'], device, k=k, epoch=epochs, aux_w=1.0
+            masks['future_mask'], device, k=k, epoch=epochs, aux_w=args.aux
         )
         loss_tracker.append(loss_track)
 
