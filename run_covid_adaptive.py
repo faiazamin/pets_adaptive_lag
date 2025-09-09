@@ -17,7 +17,7 @@ def to_one_hot(a):
     return b
 
 def train(model, optim, x_lag, y, xf_future, x_lag_valid, y_valid, xf_future_valid,
-          meta_train, meta_valid, mask_future, device, k=8, epoch=8000, aux_w=1.0):
+          meta_train, meta_valid, mask_future, device, k=8, epoch=8000, aux_w=0.0):
     model.to(device)
     scheduler = MultiStepLR(optim, milestones=[10000], gamma=0.1)
 
