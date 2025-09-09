@@ -29,7 +29,7 @@ class PerformativeTransformerAdaptive(nn.Module):
     """
     def __init__(self, feature_dim: int, perf_F: int, horizon_k: int,
                  d_model: int = 128, nhead: int = 4, num_layers: int = 2,
-                 dropout: float = 0.1, lag_dim: int = 9, conditional_lag: bool=False):
+                 dropout: float = 0.3, lag_dim: int = 9, conditional_lag: bool=False):
         super().__init__()
         self.perf_F = perf_F
         self.horizon_k = horizon_k
@@ -94,5 +94,5 @@ def perform_transformer_adaptive(feature_dim=12, perf_F=6, horizon_k=8,
                                  conditional_lag=False):
     return PerformativeTransformerAdaptive(feature_dim, perf_F, horizon_k,
                                            d_model, nhead, num_layers,
-                                           dropout=0.1, lag_dim=lag_dim,
+                                           dropout=0.3, lag_dim=lag_dim,
                                            conditional_lag=conditional_lag)
