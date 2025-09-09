@@ -26,19 +26,19 @@ class LagAttention(nn.Module):
 
     def forward(self, x):
         """
-        x: (B, T, F, L) lag cube
-        returns: (B, T, F) lag-collapsed features (adaptive delay)
+        x: (B, T, Feat, L) lag cube
+        returns: (B, T, Feat) lag-collapsed features (adaptive delay)
         """
-        B, T, F, L = x.shape
+        B, T, Feat, L = x.shape
         if self.conditional:
             # condition on x_t (lag 0)
-            xt = x[..., 0]                       # (B, T, F)
-            logits = self.cond_mlp(xt)          # (B, T, F*L)
-            logits = logits.view(B, T, F, L)    # (B, T, F, L)
-            attn = F.softmax(logits, dim=-1)    # (B, T, F, L)
-            out = (attn * x).sum(dim=-1)        # (B, T, F)
+            xt = x[..., 0]                       # (B, T, Feat)
+            logits = self.cond_mlp(xt)          # (B, T, Feat*L)
+            logits = logits.view(B, T, Feat, L)    # (B, T, Feat, L)
+            attn = F.softmax(logits, dim=-1)    # (B, T, Feat, L)
+            out = (attn * x).sum(dim=-1)        # (B, T, Feat)
         else:
             # global per-feature lag weights
-            attn = F.softmax(self.W, dim=-1)    # (F, L)
+            attn = F.softmax(self.W, dim=-1)    # (Feat, L)
             out = torch.einsum('btfl,fl->btf', x, attn)
         return out
